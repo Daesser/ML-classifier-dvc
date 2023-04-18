@@ -1,7 +1,7 @@
 Machine Learning Application for Type Identification based on Image Data
 ==============================
 
-Author: Daniel Lam
+Author: Daniel Lam <br />
 A ML-project with data versioning (dvc).
 
 ## Requirements
