@@ -1,0 +1,45 @@
+preprocess:
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+  seed: 1337
+
+model:
+  optimizer: adam
+  loss: sparse_categorical_crossentropy
+  metrics: ["sparse_categorical_accuracy"]
+
+prepare:
+  width: 224
+  height: 224
+  batch_size: 32
+  buffer_size: 500
+  randaugment_n: 3
+  randaugment_m: 7
+
+sample:
+  repeat_train: 1
+  repeat_val: 1
+  repeat_test: 1
+  same_distance: False
+  same_flash: False
+  output: data/processed/Belt
+
+train:
+  epochs: 80
+
+data:
+  dataset_processed: data/processed
+  dataset_raw: data/raw
+  datasets: ['Belt_train']
+  label_map: label_map.pbtxt
+
+test:
+  dataset_processed: data/processed
+  dataset_raw: data/raw
+  datasets: ['Belt_test_cam2']
+  tests: ['blur', 'gamma', 'hue', 'downsample', 'red_tone', 'blue_tone']
+  gamma: 0.9
+  hue: 0.2
+  delta: 0.9
+  blur_filter: (7,7)

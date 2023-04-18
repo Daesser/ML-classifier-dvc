@@ -1,0 +1,135 @@
+schema: '2.0'
+stages:
+  validate:
+    cmd: python src/data/validate.py
+    deps:
+    - path: data/raw
+      md5: a6754d6b633a9e7116d09e23c22abaf4.dir
+      size: 11498360147
+      nfiles: 9642
+    - path: src/data/validate.py
+      md5: 55549a6d86da0b63eaa20cb36b64f836
+      size: 2024
+    outs:
+    - path: temp/dummy_validation.txt
+      md5: 23fba735b5a7679c055815ba681200da
+      size: 19
+  evaluate:
+    cmd: python src/evaluation/evaluate.py
+    deps:
+    - path: src/evaluation/evaluate.py
+      md5: f1b59b2151ab483801128adffbd1a954
+      size: 3023
+    - path: temp/dummy_train.txt
+      md5: 46f01c4f6c75a45e12d91cb71f00da19
+      size: 17
+    outs:
+    - path: reports/figures/confusion.png
+      md5: 4f07d261032a96b73e3c1ff697ca08de
+      size: 2264392
+    - path: reports/figures/svm_conf.png
+      md5: a0618a23aeaaa15b73b86e4324e67aec
+      size: 2109372
+    - path: temp/dummy_evaluate.txt
+      md5: 0cc69bef028b1ace955d2232848c2219
+      size: 19
+  train_model:
+    cmd: python src/models/train_model.py
+    deps:
+    - path: src/data/make_dataset.py
+      md5: fa323eb33d7fdadf5cfbb0b37f619bba
+      size: 10728
+    - path: src/models/train_model.py
+      md5: 48024055f19b77a2d9af864123d91c82
+      size: 2263
+    - path: temp/dummy_sample.txt
+      md5: 8d7457bd1fd9a022ae8421dc2410c3ee
+      size: 17
+    params:
+      params.yaml:
+        sample.repeat_train: 1
+        train.epochs: 1
+    outs:
+    - path: reports/metrics/metrics.json
+      md5: d366b0a65f6af10230df694ea681d94d
+      size: 146
+    - path: reports/metrics/training.csv
+      md5: f72465ed0c0934530a3151e6e1eb29a4
+      size: 158
+    - path: reports/metrics/training_val.csv
+      md5: f72465ed0c0934530a3151e6e1eb29a4
+      size: 158
+    - path: temp/dummy_train.txt
+      md5: 46f01c4f6c75a45e12d91cb71f00da19
+      size: 17
+  preprocess:
+    cmd: python src/data/preprocess.py
+    deps:
+    - path: data/raw
+      md5: a6754d6b633a9e7116d09e23c22abaf4.dir
+      size: 11498360147
+      nfiles: 9642
+    - path: src/data/preprocess.py
+      md5: d9d4401f4bc205425f8631c826b46006
+      size: 8802
+    - path: temp/dummy_validation.txt
+      md5: 23fba735b5a7679c055815ba681200da
+      size: 19
+    outs:
+    - path: temp/dummy_preprocess.txt
+      md5: 7127cacdafdc78b2c70ccfbf47198925
+      size: 22
+  sample:
+    cmd: python src/data/sample.py
+    deps:
+    - path: src/data/sample.py
+      md5: b48845a7f5a073373be6a0c7e4fbb390
+      size: 12915
+    - path: temp/dummy_analyze.txt
+      md5: bb6ecb9a902bb39630c5be8d83934738
+      size: 17
+    outs:
+    - path: temp/dummy_sample.txt
+      md5: 8d7457bd1fd9a022ae8421dc2410c3ee
+      size: 17
+  analyze:
+    cmd: python src/data/analyze.py
+    deps:
+    - path: src/data/analyze.py
+      md5: d7df2a806edb43cc205e62f389efd3f1
+      size: 1198
+    - path: temp/dummy_preprocess.txt
+      md5: 7127cacdafdc78b2c70ccfbf47198925
+      size: 22
+    outs:
+    - path: temp/dummy_analyze.txt
+      md5: bb6ecb9a902bb39630c5be8d83934738
+      size: 17
+  evaluate_test:
+    cmd: python src/evaluation/evaluate_test.py
+    deps:
+    - path: src/evaluation/evaluate_test.py
+      md5: ac38df9700031b89fdc420be529a8cda
+      size: 2356
+    - path: src/models/train_model.py
+      md5: 48024055f19b77a2d9af864123d91c82
+      size: 2263
+    - path: temp/dummy_evaluate.txt
+      md5: 0cc69bef028b1ace955d2232848c2219
+      size: 19
+    outs:
+    - path: temp/dummy_evaluate_test.txt
+      md5: 14d83ba19e43ed0b2e00a550d4b5096a
+      size: 28
+  behavior_test:
+    cmd: python test/behavior_test.py
+    deps:
+    - path: src/models/train_model.py
+      md5: 48024055f19b77a2d9af864123d91c82
+      size: 2263
+    - path: temp/dummy_evaluate_test.txt
+      md5: 14d83ba19e43ed0b2e00a550d4b5096a
+      size: 28
+    - path: test/behavior_test.py
+      md5: ac17768dd4a2fbe179de4b0a3972b9ee
+      size: 3550

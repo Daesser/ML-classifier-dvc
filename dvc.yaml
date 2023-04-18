@@ -1,0 +1,84 @@
+stages:
+  validate:
+    cmd: python src/data/validate.py
+    deps:
+      - src/data/validate.py
+      - data/raw
+    outs:
+      - temp/dummy_validation.txt
+
+  preprocess:
+    cmd: python src/data/preprocess.py
+    deps:
+      - src/data/preprocess.py
+      - data/raw
+      - temp/dummy_validation.txt
+    outs:
+      - temp/dummy_preprocess.txt
+
+  analyze:
+    cmd: python src/data/analyze.py
+    deps:
+      - src/data/analyze.py
+      - temp/dummy_preprocess.txt
+    outs:
+      - temp/dummy_analyze.txt
+
+  sample:
+    cmd: python src/data/sample.py
+    deps:
+      - src/data/sample.py
+      - temp/dummy_analyze.txt
+    outs:
+      - temp/dummy_sample.txt
+
+  train_model:
+    cmd: python src/models/train_model.py
+    deps:
+      - src/models/train_model.py
+      - src/data/make_dataset.py
+      - temp/dummy_sample.txt
+    params:
+      - train.epochs
+      - sample.repeat_train
+    metrics:
+      - reports/metrics/metrics.json:
+          cache: false
+    plots:
+      - reports/metrics/training.csv:
+          cache: false
+          x: epoch
+          y: sparse_categorical_accuracy
+      - reports/metrics/training_val.csv:
+          cache: false
+          x: epoch
+          y: val_sparse_categorical_accuracy
+    outs:
+      - temp/dummy_train.txt
+
+  evaluate:
+    cmd: python src/evaluation/evaluate.py
+    deps:
+      - src/evaluation/evaluate.py
+      - temp/dummy_train.txt
+    plots:
+      - reports/figures/svm_conf.png
+      - reports/figures/confusion.png
+    outs:
+      - temp/dummy_evaluate.txt
+
+  evaluate_test:
+    cmd: python src/evaluation/evaluate_test.py
+    deps:
+      - src/evaluation/evaluate_test.py
+      - src/models/train_model.py
+      - temp/dummy_evaluate.txt
+    outs:
+      - temp/dummy_evaluate_test.txt
+
+  behavior_test:
+    cmd: python test/behavior_test.py
+    deps:
+      - test/behavior_test.py
+      - src/models/train_model.py
+      - temp/dummy_evaluate_test.txt
