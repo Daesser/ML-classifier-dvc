@@ -24,7 +24,7 @@ Clone the repository.
 
 ```console
 $ git clone https://github.com/Daesser/ML-classifier-dvc.git
-$ cd belt-classification
+$ cd ML-classifier-dvc
 ```
 It is recommended to create a virtual environment with a tool such as [virtualenv](https://virtualenv.pypa.io/en/stable/):
 
