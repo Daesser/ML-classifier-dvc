@@ -1,8 +1,8 @@
-Machine Learning Application for Transport Belt Type Identification based on Image Data
+Machine Learning Application for Type Identification based on Image Data
 ==============================
 
-This repository contains the code for the thesis:
-Machine Learning Application for Transport Belt Type Identification based on Image Data
+Author: Daniel Lam
+A ML-project with data versioning (dvc).
 
 ## Requirements
 
@@ -23,7 +23,7 @@ The DVC version used is 2.17.0.
 Clone the repository.
 
 ```console
-$ git clone https://github.com/Daesser/belt-classification.git
+$ git clone https://github.com/Daesser/ML-classifier-dvc.git
 $ cd belt-classification
 ```
 It is recommended to create a virtual environment with a tool such as [virtualenv](https://virtualenv.pypa.io/en/stable/):
@@ -57,41 +57,7 @@ In this case running [`dvc pull`](https://man.dvc.org/pull) will download the da
 $ dvc pull
 ```
 
-
-Else raw data has to be put into the data/raw folder. The following folder structure is implied:
-
-```console
-    ├─ raw
-       ├─ name       			<- Name of the Dataset.
-       	    ├─ type1        		<- Belt type, e.g. F-5EIWT.
-       	    │ 	 ├─ front
-       	    │  	 │   ├─ flash      	<- Camera flash.   
-	    │    │   │   ├─ close      	<- Distance from belt to camera.     	      
-	    │    │   │   ├─ middle         
-	    │    │   │   └─ far      	   
-            │  	 │   └─ no-flash
-	    │    │       ├─ 
-	    │    │             	            	
-            │ 	 ├─ back 
-       	    │  	 │   ├─ flash      	   
-	    │    │   │   ├─ close      	     	      
-	    │    │   │   ├─ middle     
-	    │    │   │   └─ far     	
-            │  	 │   └─ no-flash    
-	    │    │       ├─ 
-            │    │
-            │  	 └─ side    
-       	    │  	     ├─ flash      	    
-	    │        │   ├─ close      	 	      
-	    │        │   ├─ middle       
-            │  	     └─ no-flash    
-	    │            ├─ 
-	    │
-       	    ├─ type2        		
-```
-
 The preprocessing step can be skipped (or must be adjusted) for other data organizations.
-For more information please refer to the documentation (section 3.3).
 
 ## Running the code
 
@@ -133,8 +99,6 @@ code has to be rewritten with the newer versions.
 The actual version is 2.45.1 (4.3.2023). Please refer to https://dvc.org/doc.
 
 ## Project Structure
-
-The reports folder contains reports of some experiments. See analysis.csv for more detailed information about the model used.
 
 ------------
 
